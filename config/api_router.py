@@ -7,9 +7,11 @@ if settings.DEBUG:
     router = DefaultRouter()
 else:
     router = SimpleRouter()
-
+# router = DefaultRouter()
+#
+#
 router.register("users", UserViewSet)
-
-
+#
+#
 app_name = "api"
 urlpatterns = router.urls

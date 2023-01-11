@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Airport(models.Model):
-    iata_code = models.CharField(max_length=3)
+    iata_code = models.CharField(max_length=3, unique=True)
     city = models.CharField(max_length=100)
 
     def __str__(self):
@@ -18,10 +18,11 @@ class Flight(models.Model):
     destination = models.ForeignKey(
         Airport, on_delete=models.CASCADE, related_name="destination_airport"
     )
-    flight_number = models.IntegerField()
+    flight_number = models.CharField(max_length=15)
     departure_date_time = models.DateTimeField()
     arrival_date_time = models.DateTimeField()
     baseFare = models.PositiveIntegerField()
     tax = models.PositiveIntegerField()
-    # def __str__(self):
-    #     return self.
+
+    def __str__(self):
+        return self.flight_number

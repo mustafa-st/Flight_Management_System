@@ -52,3 +52,29 @@ The following details how to deploy this application.
 ### Heroku
 
 See detailed [cookiecutter-django Heroku documentation](http://cookiecutter-django.readthedocs.io/en/latest/deployment-on-heroku.html).
+
+## Requirements
+- [X] Models:
+
+    <li>The user model will be extended from the AbstractUser and we will be adding additional property to it (mobile_number)</li>
+
+    <li>Flight Model will consist of following fields:
+
+<ul>origin</ul>
+<ul>destination</ul>
+<ul>flight number</ul>
+<ul>departure date time</ul>
+<ul>arrival date time</ul>
+<ul>base fare</ul>
+<ul>tax </ul></li>
+
+<li>Airport model will have following feilds:
+
+<ul>iata code (string unique representation of airport)</ul>
+<ul>city (string city name)</ul></li>
+
+### The following endpoints are required in the Backend API:
+-[ ] User Signup
+-[ ] User Login (JWT authentication class to be use)
+-[ ] Flight Search (Public) - Flights without prices are visible on this
+-[ ] light Search with prices are available once user hit the same endpoint with login
