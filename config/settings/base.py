@@ -1,6 +1,7 @@
 """
 Base settings to build other settings files upon.
 """
+from datetime import timedelta
 from pathlib import Path
 
 import environ
@@ -76,14 +77,17 @@ THIRD_PARTY_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "rest_framework",
-    "rest_framework.authtoken",
     "corsheaders",
+    "rest_framework.authtoken",
     "drf_spectacular",
+    "phonenumber_field",
+    "django_filters",
 ]
 
 LOCAL_APPS = [
     "flight_manager.users",
     # Your stuff: custom apps go here
+    "fms",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -141,6 +145,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.common.BrokenLinkEmailsMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "flight_manager.users.middlewares.JSONParsingMiddleware",
 ]
 
 # STATIC
@@ -280,13 +285,40 @@ SOCIALACCOUNT_FORMS = {"signup": "flight_manager.users.forms.UserSocialSignupFor
 # django-rest-framework
 # -------------------------------------------------------------------------------
 # django-rest-framework - https://www.django-rest-framework.org/api-guide/settings/
+# REST_FRAMEWORK = {
+#     "DEFAULT_AUTHENTICATION_CLASSES": (
+#         "rest_framework.authentication.SessionAuthentication",
+#         "rest_framework.authentication.TokenAuthentication",
+#     ),
+
+# }
+
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework_simplejwt.authentication.JWTTokenUserAuthentication",
+        # "flight_manager.users.authentication.CustomAuthentication",
+        # 'fms.authentication.CustomAuthentication',
     ),
-    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
-    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_FILTER_BACKENDS": (["django_filters.rest_framework.DjangoFilterBackend"]),
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "AUTH_HEADER_TYPES": ("Bearer",),
+    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
+    "USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",
+    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
+    "AUTH_COOKIE": "access_token",  # Cookie name. Enables cookies if value is set.
+    "AUTH_COOKIE_DOMAIN": None,  # A string like "example.com", or None for standard domain cookie.
+    "AUTH_COOKIE_SECURE": False,  # Whether the auth cookies should be secure (https:// only).
+    "AUTH_COOKIE_HTTP_ONLY": True,  # Http only cookie flag.It's not fetch by javascript.
+    "AUTH_COOKIE_PATH": "/",  # The path of the auth cookie.
+    "AUTH_COOKIE_SAMESITE": "Lax",  # Whether to set the flag restricting
+    # cookie leaks on cross-site requests.
+    # This can be 'Lax', 'Strict',or None to disable the flag.
 }
 
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
@@ -302,3 +334,6 @@ SPECTACULAR_SETTINGS = {
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True

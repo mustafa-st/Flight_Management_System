@@ -1,7 +1,8 @@
 from django.contrib.auth.models import AbstractUser
-from django.db.models import CharField
+from django.db.models import CharField, EmailField
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class User(AbstractUser):
@@ -13,8 +14,20 @@ class User(AbstractUser):
 
     #: First and last name do not cover name patterns around the globe
     name = CharField(_("Name of User"), blank=True, max_length=255)
-    first_name = None  # type: ignore
-    last_name = None  # type: ignore
+    email = EmailField(
+        blank=True,
+        unique=True,
+        error_messages={"unique": "A user with that email already exists."},
+        max_length=254,
+        verbose_name="email address",
+    )
+    mobile_number = PhoneNumberField(
+        null=False,
+        error_messages={
+            "success": False,
+            "error": "Incorrect International Calling Code or Mobile Number!",
+        },
+    )
 
     def get_absolute_url(self):
         """Get url for user's detail view.
