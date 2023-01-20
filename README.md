@@ -74,7 +74,8 @@ See detailed [cookiecutter-django Heroku documentation](http://cookiecutter-djan
 <ul>city (string city name)</ul></li>
 
 ### The following endpoints are required in the Backend API:
--[ ] User Signup
--[ ] User Login (JWT authentication class to be use)
--[ ] Flight Search (Public) - Flights without prices are visible on this
--[ ] light Search with prices are available once user hit the same endpoint with login
+
+- [X] User Signup
+- [X] User Login (JWT authentication class to be use)
+- [ ] Flight Search (Public) - Flights without prices are visible on this
+- [ ] light Search with prices are available once user hit the same endpoint with login
