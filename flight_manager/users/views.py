@@ -9,7 +9,6 @@ from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView, RedirectView, UpdateView
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -109,11 +108,11 @@ class UserLogin(APIView):
                     httponly=settings.SIMPLE_JWT["AUTH_COOKIE_HTTP_ONLY"],
                     secure=settings.SIMPLE_JWT["AUTH_COOKIE_SECURE"],
                 )
-                response.data = {
+                context = {
                     "success": True,
                     "payload": {"refresh": token["refresh"], "access": token["access"]},
                 }
-                return response
+                return Response(context)
         else:
             msg = {
                 "success": False,
@@ -123,7 +122,6 @@ class UserLogin(APIView):
 
 
 class UserDetail(APIView):
-    permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
     @staticmethod
