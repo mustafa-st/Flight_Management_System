@@ -77,5 +77,5 @@ See detailed [cookiecutter-django Heroku documentation](http://cookiecutter-djan
 
 - [X] User Signup
 - [X] User Login (JWT authentication class to be use)
-- [ ] Flight Search (Public) - Flights without prices are visible on this
-- [ ] light Search with prices are available once user hit the same endpoint with login
+- [X] Flight Search (Public) - Flights without prices are visible on this
+- [X] Flight Search with prices are available once user hit the same endpoint with login

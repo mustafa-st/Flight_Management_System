@@ -1,10 +1,10 @@
-from django.http import HttpResponse
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
-from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from fms.authentication import CustomAuthentication, CustomPermission
+from fms.filters import FlightFilter, FlightPublicFilter
 
 from .models import Airport, Flight
 from .serializers import AirportSerializer, FlightSerializer, FlightSerializerLogin
@@ -12,48 +12,19 @@ from .serializers import AirportSerializer, FlightSerializer, FlightSerializerLo
 # Create your views here.
 
 
-class AuthenticatedFlightAPI(generics.ListAPIView):
-    authentication_classes = [CustomAuthentication]
+class FlightAPI(generics.ListAPIView):
+    authentication_classes = [JWTAuthentication]
     queryset = Flight.objects.all()
     serializer_class = FlightSerializerLogin
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = [
-        "flight_number",
-        "origin__iata_code",
-        "destination__iata_code",
-        "departure_date_time",
-    ]
+    filterset_class = FlightFilter
 
 
-class NotAuthenticatedFlightAPI(generics.ListAPIView):
-    authentication_classes = [CustomAuthentication]
+class FlightPublicAPI(generics.ListAPIView):
     queryset = Flight.objects.all()
     serializer_class = FlightSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = [
-        "flight_number",
-        "origin__iata_code",
-        "destination__iata_code",
-        "departure_date_time",
-    ]
-
-
-class FlightAPI(generics.ListAPIView):
-    permission_classes = [CustomPermission]
-    queryset = Flight.objects.all()
-
-    if permission_classes is True:
-        serializer_class = FlightSerializerLogin
-    else:
-        serializer_class = FlightSerializer
-
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = [
-        "flight_number",
-        "origin__iata_code",
-        "destination__iata_code",
-        "departure_date_time",
-    ]
+    filterset_class = FlightPublicFilter
 
 
 class AirportAPI(APIView):
@@ -61,5 +32,4 @@ class AirportAPI(APIView):
     def get(request):
         queryset = Airport.objects.all()
         serializer = AirportSerializer(queryset, many=True)
-        json_data = JSONRenderer().render(serializer.data)
-        return HttpResponse(json_data, content_type="application/json")
+        return Response(serializer.data, content_type="application/json")
