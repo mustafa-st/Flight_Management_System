@@ -1,5 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -14,6 +15,7 @@ from .serializers import AirportSerializer, FlightSerializer, FlightSerializerLo
 
 class FlightAPI(generics.ListAPIView):
     authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Flight.objects.all()
     serializer_class = FlightSerializerLogin
     filter_backends = [DjangoFilterBackend]
