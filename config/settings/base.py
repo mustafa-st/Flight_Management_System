@@ -296,8 +296,6 @@ SOCIALACCOUNT_FORMS = {"signup": "flight_manager.users.forms.UserSocialSignupFor
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-        # "flight_manager.users.authentication.CustomAuthentication",
-        # 'fms.authentication.CustomAuthentication',
     ),
     "DEFAULT_FILTER_BACKENDS": (["django_filters.rest_framework.DjangoFilterBackend"]),
 }

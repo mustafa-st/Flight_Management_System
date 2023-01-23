@@ -37,13 +37,13 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             raise MyCustomExcpetion(
                 detail={
                     "success": False,
-                    "error": "BAD_REQUEST: Username already exist",
+                    "error": "BAD REQUEST: Username already exist",
                 },
                 status_code=status.HTTP_400_BAD_REQUEST,
             )
         elif email_q.exists():
             raise MyCustomExcpetion(
-                detail={"success": False, "error": "BAD_REQUEST: Email already exist"},
+                detail={"success": False, "error": "BAD REQUEST: Email already exist"},
                 status_code=status.HTTP_400_BAD_REQUEST,
             )
         return attrs
