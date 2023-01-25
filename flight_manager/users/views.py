@@ -1,15 +1,12 @@
-import phonenumbers
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView, RedirectView, UpdateView
-from rest_framework import status
+from rest_framework import serializers, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from flight_manager.users.functions import get_token_for_user
 
@@ -59,71 +56,71 @@ user_redirect_view = UserRedirectView.as_view()
 
 
 class UserRegistration(APIView):
-    @csrf_exempt
     def post(self, request):
-        serializer = UserRegisterSerializer(data=request.JSON)
-        if serializer.is_valid():
+        serializer = UserRegisterSerializer(data=request.data)
+        try:
+            serializer.is_valid(raise_exception=True)
             serializer.save()
             msg = {
                 "success": True,
                 "payload": {
                     "message": "User Created for email: {}".format(
-                        request.JSON["email"]
+                        serializer.validated_data["email"]
                     )
                 },
             }
-            return Response(msg)
-        else:
-            phone_number = phonenumbers.parse(request.JSON["mobile_number"])
-            if not phonenumbers.is_possible_number(phone_number):
-                msg = {"success": False, "error": "BAD REQUEST: Invalid Phone number"}
-            else:
-                msg = {
-                    "success": False,
-                    "error": "BAD REQUEST: Ensure password has at least 8 characters",
-                }
-            return Response(msg, status=status.HTTP_400_BAD_REQUEST)
+            return Response(msg, status=status.HTTP_200_OK)
+        except Exception as err:
+            print(err)
+            raise serializers.ValidationError(
+                {"success": False, "error": err}, code="authorization"
+            )
 
 
 class UserLogin(APIView):
-    @csrf_exempt
     def post(self, request):
-        serializer = LoginUserSerializer(data=request.JSON)
-        username = request.JSON["username"]
-        password = request.JSON["password"]
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            if serializer.is_valid():
-                token = get_token_for_user(user)
-                context = {
-                    "success": True,
-                    "payload": {"refresh": token["refresh"], "access": token["access"]},
-                }
-                return Response(context)
-        else:
-            msg = {
-                "success": False,
-                "error": "BAD REQUEST: Invalid username or password",
+        serializer = LoginUserSerializer(data=request.data)
+        try:
+            serializer.is_valid(raise_exception=True)
+            username = serializer.validated_data["username"]
+            password = serializer.validated_data["password"]
+            user = authenticate(username=username, password=password)
+            if not user:
+                raise serializers.ValidationError(
+                    {
+                        "success": False,
+                        "error": "Unable to log in with provided credentials.",
+                    }
+                )
+            token = get_token_for_user(user)
+            context = {
+                "success": True,
+                "payload": {"refresh": token["refresh"], "access": token["access"]},
             }
-            return Response(msg, status=status.HTTP_400_BAD_REQUEST)
+            return Response(context)
+        except serializers.ValidationError as err:
+            raise err
 
 
-class UserDetail(APIView):
-    authentication_classes = [JWTAuthentication]
-
-    # @staticmethod
-    # def get(request):
-    #     queryset = User.objects.all()
-    #     serializer = GetUserSerializer(queryset, many=True)
-    #     json_data = JSONRenderer().render(serializer.data)
-    #     return HttpResponse(json_data, content_type="application/json")
-    #
-    # response.set_cookie(
-    #     key=settings.SIMPLE_JWT["AUTH_COOKIE"],
-    #     value=token["access"],
-    #     domain=settings.SIMPLE_JWT["AUTH_COOKIE_DOMAIN"],
-    #     path=settings.SIMPLE_JWT["AUTH_COOKIE_PATH"],
-    #     expires=settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"],
-    #     httponly=settings.SIMPLE_JWT["AUTH_COOKIE_HTTP_ONLY"],
-    #     secure=settings.SIMPLE_JWT["AUTH_COOKIE_SECURE"],
-    # )
+#
+# class UserLogin(APIView):
+#     # @csrf_exempt
+#     def post(self, request):
+#         serializer = LoginUserSerializer(data=request.JSON)
+#         username = request.JSON["username"]
+#         password = request.JSON["password"]
+#         user = authenticate(username=username, password=password)
+#         if user is not None:
+#             if serializer.is_valid():
+#                 token = get_token_for_user(user)
+#                 context = {
+#                     "success": True,
+#                     "payload": {"refresh": token["refresh"], "access": token["access"]},
+#                 }
+#                 return Response(context)
+#         else:
+#             msg = {
+#                 "success": False,
+#                 "error": "Invalid username or password",
+#             }
+#             return Response(msg, status=status.HTTP_400_BAD_REQUEST)

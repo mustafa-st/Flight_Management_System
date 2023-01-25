@@ -1,52 +1,40 @@
+import phonenumbers
 from django.contrib.auth.hashers import make_password
-from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework import serializers, status
 
 from flight_manager.users.models import User
-from flight_manager.users.MyExceptions import MyCustomExcpetion
+from flight_manager.users.my_exception import MyCustomExcpetion
 
 
-class UserRegisterSerializer(serializers.ModelSerializer):
+class UserRegisterSerializer(serializers.Serializer):
 
     first_name = serializers.CharField(allow_blank=True, max_length=150)
     last_name = serializers.CharField(allow_blank=True, max_length=150)
-    username = serializers.CharField(
-        error_messages={"unique": "A user with that username already exists."}
+    username = serializers.CharField()
+    mobile_number = serializers.CharField(
+        error_messages={"success": False, "error": "Phone Number is not valid"}
     )
-    mobile_number = PhoneNumberField()
     email = serializers.EmailField(max_length=254)
     password = serializers.CharField(max_length=128, min_length=8)
+    #
+    # class Meta:
+    #     model = User
+    #     fields = [
+    #         "first_name",
+    #         "last_name",
+    #         "username",
+    #         "mobile_number",
+    #         "email",
+    #         "password",
+    #     ]
 
-    class Meta:
-        model = User
-        fields = [
-            "first_name",
-            "last_name",
-            "username",
-            "mobile_number",
-            "email",
-            "password",
-        ]
+    def validate_mobile_number(self, value):
 
-    def validate(self, attrs):
-        username = attrs["username"]
-        email = attrs["email"]
-        user_q = User.objects.filter(username__iexact=username)
-        email_q = User.objects.filter(email__iexact=email)
-        if user_q.exists():
-            raise MyCustomExcpetion(
-                detail={
-                    "success": False,
-                    "error": "BAD REQUEST: Username already exist",
-                },
-                status_code=status.HTTP_400_BAD_REQUEST,
-            )
-        elif email_q.exists():
-            raise MyCustomExcpetion(
-                detail={"success": False, "error": "BAD REQUEST: Email already exist"},
-                status_code=status.HTTP_400_BAD_REQUEST,
-            )
-        return attrs
+        phone_number = phonenumbers.parse(value)
+        if not phonenumbers.is_possible_number(phone_number):
+            msg = "Invalid Phone number"
+            raise MyCustomExcpetion(msg)
+        return phone_number.national_number
 
     def create(self, validated_data):
         user = User.objects.create(
@@ -58,6 +46,24 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             mobile_number=validated_data["mobile_number"],
         )
         return user
+
+    def validate_username(self, value):
+        user_q = User.objects.filter(username__iexact=value)
+        if user_q.exists():
+            raise MyCustomExcpetion(
+                detail="Username already exist",
+                status_code=status.HTTP_400_BAD_REQUEST,
+            )
+        return value
+
+    def validate_email(self, value):
+        email_q = User.objects.filter(email__iexact=value)
+        if email_q.exists():
+            raise MyCustomExcpetion(
+                detail="Email already exist",
+                status_code=status.HTTP_400_BAD_REQUEST,
+            )
+        return value
 
 
 class LoginUserSerializer(serializers.Serializer):

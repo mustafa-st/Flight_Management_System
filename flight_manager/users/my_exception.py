@@ -11,3 +11,12 @@ class MyCustomExcpetion(PermissionDenied):
         self.detail = detail
         if status_code is not None:
             self.status_code = status_code
+
+
+# def custom_exception_handler(exc, context):
+#     response = exception_handler(exc, context)
+#
+#     if response is not None:
+#         exc_list = str(exc).split("DETAIL")
+#
+#     return response

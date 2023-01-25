@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("fms", "0001_initial"),
+        ("flights", "0001_initial"),
     ]
 
     operations = [
@@ -51,7 +51,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="destination_airport",
-                        to="fms.airport",
+                        to="flights.airport",
                     ),
                 ),
                 (
@@ -59,7 +59,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="origin_airport",
-                        to="fms.airport",
+                        to="flights.airport",
                     ),
                 ),
             ],
