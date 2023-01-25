@@ -16,8 +16,6 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
     path("users/", include("flight_manager.users.urls")),
-    # path("accounts/", include("allauth.urls")),
-    # Your stuff: custom urls includes go here
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
@@ -26,7 +24,7 @@ urlpatterns = [
 urlpatterns += [
     # API base url
     path("api/", include("flight_manager.users.api.urls")),
-    path("api/flights/", include("fms.urls")),
+    path("api/flights/", include("flights.urls")),
     # DRF auth token
     path("auth-token/", obtain_auth_token),
 ]

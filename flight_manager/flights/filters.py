@@ -1,6 +1,6 @@
 from django_filters.rest_framework import DateFromToRangeFilter, FilterSet
 
-from fms.models import Flight
+from flight_manager.flights.models import Flight
 
 
 class FlightFilter(FilterSet):

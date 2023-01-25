@@ -21,10 +21,6 @@ class User(AbstractUser):
     )
     mobile_number = PhoneNumberField(
         null=False,
-        error_messages={
-            "success": False,
-            "error": "Incorrect International Calling Code or Mobile Number!",
-        },
     )
 
     def get_absolute_url(self):

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from fms.models import Airport, Flight
+from flight_manager.flights.models import Airport, Flight
 
 # Register your models here.
 
