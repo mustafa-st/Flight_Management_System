@@ -64,7 +64,8 @@ See detailed [cookiecutter-django Heroku documentation](http://cookiecutter-djan
 <ul>departure date time</ul>
 <ul>arrival date time</ul>
 <ul>base fare</ul>
-<ul>tax </ul></li>
+<ul>tax </ul>
+<ul>provider </ul></li>
 
 <li>Airport model will have following feilds:
 
