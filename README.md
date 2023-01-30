@@ -70,6 +70,7 @@ See detailed [cookiecutter-django Heroku documentation](http://cookiecutter-djan
 <ul>arrival date time</ul>
 <ul>base fare</ul>
 <ul>tax </ul></li>
+<ul>provider </ul></li>
 
 <li>Airport model will have following feilds:
 
