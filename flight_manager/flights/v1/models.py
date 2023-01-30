@@ -26,23 +26,33 @@ class Flight(models.Model):
     arrival_date_time = models.DateTimeField()
     baseFare = models.PositiveIntegerField()
     tax = models.PositiveIntegerField()
+    provider = models.CharField(null=False, max_length=200)
 
     def __str__(self):
         return self.flight_number
 
 
+class Booking(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    def __str__(self):
+        return str(self.id)
+
+
 class ContactDetail(models.Model):
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE)
     mobile_number = PhoneNumberField(null=False)
     email = models.EmailField(null=False)
 
+    def __str__(self):
+        return self.email
+
 
 class TravelerDetail(models.Model):
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE)
     first_name = models.CharField(null=False, max_length=100)
     last_name = models.CharField(null=False, max_length=100)
     age = models.PositiveIntegerField(null=False)
 
-
-class Booking(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    contact_detail = models.ForeignKey(ContactDetail, on_delete=models.CASCADE)
-    traveler_detail = models.ForeignKey(TravelerDetail, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.first_name

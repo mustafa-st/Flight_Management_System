@@ -288,6 +288,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_FILTER_BACKENDS": (["django_filters.rest_framework.DjangoFilterBackend"]),
+    "EXCEPTION_HANDLER": "flight_manager.utils.exceptions.custom_exception_handler",
 }
 
 SIMPLE_JWT = {
@@ -323,3 +324,14 @@ SPECTACULAR_SETTINGS = {
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+
+ASGI_APPLICATION = "flight_manager.routing.application"
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "cache_table_flights",
+        "TIMEOUT": 60,
+    }
+}

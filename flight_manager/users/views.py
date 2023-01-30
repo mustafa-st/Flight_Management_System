@@ -70,11 +70,9 @@ class UserRegistration(APIView):
                 },
             }
             return Response(msg, status=status.HTTP_200_OK)
-        except Exception as err:
-            print(err)
-            raise serializers.ValidationError(
-                {"success": False, "error": err}, code="authorization"
-            )
+        except Exception as exc:
+            raise exc
+            # err {"success": False, "error": exc.__cause__}
 
 
 class UserLogin(APIView):

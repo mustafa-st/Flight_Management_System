@@ -1,0 +1,45 @@
+ id |      app      |                      name                      |            applied
+----+---------------+------------------------------------------------+-------------------------------
+  1 | contenttypes  | 0001_initial                                   | 2023-01-15 18:15:26.171296+05
+  2 | contenttypes  | 0002_remove_content_type_name                  | 2023-01-15 18:15:26.191068+05
+  3 | auth          | 0001_initial                                   | 2023-01-15 18:15:26.297177+05
+  4 | auth          | 0002_alter_permission_name_max_length          | 2023-01-15 18:15:26.311763+05
+  5 | auth          | 0003_alter_user_email_max_length               | 2023-01-15 18:15:26.3303+05
+  6 | auth          | 0004_alter_user_username_opts                  | 2023-01-15 18:15:26.349695+05
+  7 | auth          | 0005_alter_user_last_login_null                | 2023-01-15 18:15:26.366328+05
+  8 | auth          | 0006_require_contenttypes_0002                 | 2023-01-15 18:15:26.371153+05
+  9 | auth          | 0007_alter_validators_add_error_messages       | 2023-01-15 18:15:26.387206+05
+ 10 | auth          | 0008_alter_user_username_max_length            | 2023-01-15 18:15:26.403492+05
+ 11 | auth          | 0009_alter_user_last_name_max_length           | 2023-01-15 18:15:26.419845+05
+ 12 | auth          | 0010_alter_group_name_max_length               | 2023-01-15 18:15:26.437673+05
+ 13 | auth          | 0011_update_proxy_permissions                  | 2023-01-15 18:15:26.454697+05
+ 14 | auth          | 0012_alter_user_first_name_max_length          | 2023-01-15 18:15:26.471154+05
+ 15 | users         | 0001_initial                                   | 2023-01-15 18:15:26.587725+05
+ 16 | account       | 0001_initial                                   | 2023-01-15 18:15:26.687437+05
+ 17 | account       | 0002_email_max_length                          | 2023-01-15 18:15:26.712394+05
+ 18 | admin         | 0001_initial                                   | 2023-01-15 18:15:26.771306+05
+ 19 | admin         | 0002_logentry_remove_auto_add                  | 2023-01-15 18:15:26.795261+05
+ 20 | admin         | 0003_logentry_add_action_flag_choices          | 2023-01-15 18:15:26.820688+05
+ 21 | authtoken     | 0001_initial                                   | 2023-01-15 18:15:26.871628+05
+ 22 | authtoken     | 0002_auto_20160226_1747                        | 2023-01-15 18:15:26.960799+05
+ 23 | authtoken     | 0003_tokenproxy                                | 2023-01-15 18:15:26.968961+05
+ 24 | fms           | 0001_initial                                   | 2023-01-15 18:15:26.973988+05
+ 25 | fms           | 0002_initial                                   | 2023-01-15 18:15:27.034247+05
+ 26 | sessions      | 0001_initial                                   | 2023-01-15 18:15:27.06731+05
+ 27 | sites         | 0001_initial                                   | 2023-01-15 18:15:27.071713+05
+ 28 | sites         | 0002_initial                                   | 2023-01-15 18:15:27.100801+05
+ 29 | socialaccount | 0001_initial                                   | 2023-01-15 18:15:27.407271+05
+ 30 | socialaccount | 0002_token_max_lengths                         | 2023-01-15 18:15:27.474809+05
+ 31 | socialaccount | 0003_extra_data_default_dict                   | 2023-01-15 18:15:27.505041+05
+ 32 | fms           | 0003_alter_flight_flight_number                | 2023-01-17 18:19:53.670271+05
+ 33 | users         | 0002_alter_user_email_alter_user_mobile_number | 2023-01-20 15:10:35.160094+05
+ 34 | fms           | 0004_alter_airport_iata_code                   | 2023-01-20 17:44:05.198371+05
+ 35 | flights       | 0001_initial                                   | 2023-01-23 17:27:54.225238+05
+ 36 | flights       | 0002_initial                                   | 2023-01-23 17:27:54.282734+05
+ 37 | flights       | 0003_alter_flight_flight_number                | 2023-01-23 17:27:54.31555+05
+ 38 | flights       | 0004_alter_airport_iata_code                   | 2023-01-23 17:27:54.336829+05
+ 39 | flights       | 0005_contactdetail_travelerdetail_booking      | 2023-01-25 12:19:38.504875+05
+ 40 | users         | 0003_alter_user_mobile_number                  | 2023-01-25 12:19:38.537371+05
+ 41 | flights       | 0005_booking_travelerdetail_contactdetail      | 2023-01-25 17:09:39.089792+05
+ 42 | flights       | 0002_rename_booking_booking1_and_more          | 2023-01-25 17:38:10.663087+05
+(42 rows)
