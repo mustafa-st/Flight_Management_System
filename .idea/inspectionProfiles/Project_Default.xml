@@ -47,6 +47,11 @@
         <list>
           <option value="fms.models.Flight.objects" />
           <option value="fms.models.Airport.objects" />
+          <option value="flight_manager.flights.models.Airport.objects" />
+          <option value="flight_manager.flights.models.Flight.objects" />
+          <option value="flight_manager.flights.models.TravelerDetail.objects" />
+          <option value="flight_manager.flights.models.ContactDetail.objects" />
+          <option value="flight_manager.flights.models.Booking.objects" />
         </list>
       </option>
     </inspection_tool>

@@ -24,7 +24,7 @@ urlpatterns = [
 urlpatterns += [
     # API base url
     path("api/", include("flight_manager.users.api.urls")),
-    path("api/flights/", include("flights.urls")),
+    path("api/flights/", include("flights.v1.urls")),
     # DRF auth token
     path("auth-token/", obtain_auth_token),
 ]
