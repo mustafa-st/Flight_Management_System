@@ -2,10 +2,10 @@ import requests
 from django.core.cache import cache
 from rest_framework.views import Response
 
-from flight_manager.flights.v1.views import FlightPublicAPI
+from flight_manager.flights.v1.views import FlightPublicAPI as V1FlightPublicAPI
 
 
-class FlightsV2(FlightPublicAPI):
+class FlightPublicAPI(V1FlightPublicAPI):
     def list(self, request, *args, **kwargs):
         try:
             abs_url = request.build_absolute_uri()

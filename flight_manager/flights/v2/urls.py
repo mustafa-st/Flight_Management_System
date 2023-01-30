@@ -1,7 +1,7 @@
 from django.urls import path
 
-from flight_manager.flights.v2.views import FlightsV2
+from flight_manager.flights.v2.views import FlightPublicAPI
 
 urlpatterns = [
-    path("flights/", FlightsV2.as_view()),
+    path("flights/", FlightPublicAPI.as_view()),
 ]
