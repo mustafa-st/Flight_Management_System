@@ -28,7 +28,7 @@ class FlightPublicAPI(V1FlightPublicAPI):
             queryset = self.filter_queryset(self.get_queryset())
             serializer = self.get_serializer(queryset, many=True)
             flights = cache.get(str(abs_url))
-            print(len(r.json()["data"]["flights"][0]))
+            staging_flights_data = r.json()["data"]["flights"][0]
             staging_flights = []
 
             if flights is not None:
@@ -48,23 +48,23 @@ class FlightPublicAPI(V1FlightPublicAPI):
                     ],
                 }
             else:
-                for i in range(len(r.json()["data"]["flights"][0])):
-                    origin_iata_code = r.json()["data"]["flights"][0][i]["legs"][0][
-                        "segments"
-                    ][0]["origin"]["iata_code"]
-                    destination_iata_code = r.json()["data"]["flights"][0][i]["legs"][
+                for i in range(len(staging_flights_data)):
+                    origin_iata_code = staging_flights_data[i]["legs"][0]["segments"][
                         0
-                    ]["segments"][0]["destination"]["iata_code"]
-                    flight_number = r.json()["data"]["flights"][0][i]["legs"][0][
+                    ]["origin"]["iata_code"]
+                    destination_iata_code = staging_flights_data[i]["legs"][0][
                         "segments"
-                    ][0]["flight_number"].pop()
-                    provider = r.json()["data"]["flights"][0][i]["provider"]
-                    departure_date_time = r.json()["data"]["flights"][0][i]["legs"][0][
+                    ][0]["destination"]["iata_code"]
+                    flight_number = staging_flights_data[i]["legs"][0]["segments"][0][
+                        "flight_number"
+                    ].pop()
+                    provider = staging_flights_data[i]["provider"]
+                    departure_date_time = staging_flights_data[i]["legs"][0][
                         "segments"
                     ][0]["departure_datetime"]
-                    arrival_date_time = r.json()["data"]["flights"][0][i]["legs"][0][
-                        "segments"
-                    ][0]["arrival_datetime"]
+                    arrival_date_time = staging_flights_data[i]["legs"][0]["segments"][
+                        0
+                    ]["arrival_datetime"]
 
                     staging_flights.append(
                         {
