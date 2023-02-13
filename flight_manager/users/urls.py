@@ -1,14 +1,8 @@
 from django.urls import path
 
-from flight_manager.users.views import (
-    user_detail_view,
-    user_redirect_view,
-    user_update_view,
-)
+from flight_manager.users.views import UserLogin, UserRegistration
 
-app_name = "users"
 urlpatterns = [
-    path("~redirect/", view=user_redirect_view, name="redirect"),
-    path("~update/", view=user_update_view, name="update"),
-    path("<str:username>/", view=user_detail_view, name="detail"),
+    path("login/", UserLogin.as_view()),
+    path("signup/", UserRegistration.as_view()),
 ]
