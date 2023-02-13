@@ -81,3 +81,5 @@ See detailed [cookiecutter-django Heroku documentation](http://cookiecutter-djan
 - [X] Bonus: document all endpoints using Postman.
 - [X] Booking API - API endpoint to book flights by "flight_id".
 - [X] Providers API - Providers search api that gets flights data from both database and sastaticket staging.
+- [X] Setup celery in the project.
+- [X] It will run a cron job every 30 minutes which will increment prices in DB to 100Rs.

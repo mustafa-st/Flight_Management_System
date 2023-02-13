@@ -1,6 +1,5 @@
 from django.contrib.auth.models import AbstractUser
 from django.db.models import CharField, EmailField
-from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -23,11 +22,11 @@ class User(AbstractUser):
         null=False,
     )
 
-    def get_absolute_url(self):
-        """Get url for user's detail view.
-
-        Returns:
-            str: URL for user detail.
-
-        """
-        return reverse("users:detail", kwargs={"username": self.username})
+    # def get_absolute_url(self):
+    #     """Get url for user's detail view.
+    #
+    #     Returns:
+    #         str: URL for user detail.
+    #
+    #     """
+    #     return reverse("users:detail", kwargs={"username": self.username})
