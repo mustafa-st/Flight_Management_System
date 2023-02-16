@@ -58,8 +58,7 @@ def flight_providers_response(
             "success": response.json()["success"],
             "data": [
                 {"search_params": request.data["search_params"]},
-                {"flights": [flights_data]},
-                {"SastaTicket Staging": [{"flights": []}], "poll": True},
+                {"flights": [], "poll": True},
             ],
         }
     else:
@@ -68,8 +67,7 @@ def flight_providers_response(
             "success": response.json()["success"],
             "data": [
                 {"search_params": request.data["search_params"]},
-                {"flights": [flights_data]},
-                {"SastaTicket Staging": [{"flights": [flights_list]}]},
+                {"flights": flights_data + flights_list},
             ],
         }
     return flight_response
